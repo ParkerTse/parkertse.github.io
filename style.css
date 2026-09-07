@@ -123,6 +123,39 @@ section p strong {
   font-weight: 600;
 }
 
+.course-columns {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.course-columns > div {
+  flex: 1 1 200px;
+}
+
+.course-columns h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  margin: 0 0 0.6rem;
+}
+
+.course-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.course-list li {
+  margin-bottom: 0.5rem;
+}
+
+.course-list .topic {
+  display: block;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
 footer {
   margin-top: 5rem;
   padding-top: 1.5rem;
