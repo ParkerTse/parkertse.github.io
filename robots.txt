@@ -1,4 +1,2 @@
 User-agent: *
 Disallow:
-
-Sitemap: https://parkertse.github.io/sitemap.xml
