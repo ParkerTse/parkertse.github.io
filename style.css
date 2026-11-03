@@ -350,7 +350,7 @@ footer {
   background: transparent;
 }
 
-.post div.arithmatex {
+.post div.math {
   overflow-x: auto;
   color: var(--foreground);
 }
