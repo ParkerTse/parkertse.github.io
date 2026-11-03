@@ -3,3 +3,5 @@
 _site
 .jekyll-cache
 .tweet-cache
+editorials/
+__pycache__/

@@ -14,6 +14,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build editorials
+        run: |
+          pip install -r requirements.txt
+          python build.py
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
@@ -21,3 +29,8 @@ jobs:
           exclude: |
             .git/**
             .github/**
+            .gitignore
+            _editorials/**
+            templates/**
+            build.py
+            requirements.txt
