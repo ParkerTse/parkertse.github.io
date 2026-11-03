@@ -14,29 +14,51 @@ import shutil
 from pathlib import Path
 from string import Template
 
-import markdown
 import yaml
+from markdown_it import MarkdownIt
+from mdit_py_plugins.anchors import anchors_plugin
+from mdit_py_plugins.dollarmath import dollarmath_plugin
+from pygments import highlight
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import TextLexer, get_lexer_by_name
+from pygments.util import ClassNotFound
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "_editorials"
 OUT = ROOT / "editorials"
 TEMPLATES = ROOT / "templates"
 
-MD_EXTENSIONS = [
-    "tables",
-    "toc",
-    "pymdownx.superfences",
-    "pymdownx.highlight",
-    "pymdownx.arithmatex",
-    "pymdownx.inlinehilite",
-]
-MD_CONFIG = {
-    "pymdownx.highlight": {"css_class": "highlight"},
-    "pymdownx.arithmatex": {"generic": True},
-}
-
 DIFFICULTIES = {"easy", "medium", "hard"}
+
+
+def render_fence(self, tokens, idx, options, env):
+    token = tokens[idx]
+    lang = token.info.strip().split()[0] if token.info.strip() else ""
+    try:
+        lexer = get_lexer_by_name(lang) if lang else TextLexer()
+    except ClassNotFound:
+        lexer = TextLexer()
+    return highlight(token.content, lexer, HtmlFormatter(wrapcode=True))
+
+
+def render_math(content, options):
+    # dollarmath wraps this in .math; KaTeX auto-render (templates/post.html) picks it up.
+    if options["display_mode"]:
+        return f"\\[{html.escape(content)}\\]"
+    return f"\\({html.escape(content)}\\)"
+
+
+# CommonMark, like GitHub, so files render here the way GitHub previews them
+# (e.g. lists nested with 2, 3 or 4 spaces all work).
+MD = (
+    MarkdownIt("commonmark")
+    .enable(["table", "strikethrough"])
+    # No space just inside the $s, so "$5 and $10" stays plain text.
+    .use(dollarmath_plugin, allow_space=False, allow_digits=False, renderer=render_math)
+    .use(anchors_plugin, min_level=2, max_level=3)
+)
+MD.add_render_rule("fence", render_fence)
+MD.add_render_rule("code_block", render_fence)
 
 
 def load_post(path):
@@ -57,9 +79,7 @@ def load_post(path):
     meta.setdefault("tags", [])
     meta.setdefault("link", "")
     meta["slug"] = path.stem
-    meta["body"] = markdown.markdown(
-        body, extensions=MD_EXTENSIONS, extension_configs=MD_CONFIG
-    )
+    meta["body"] = MD.render(body)
     return meta
 
 
