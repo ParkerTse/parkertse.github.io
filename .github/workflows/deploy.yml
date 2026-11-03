@@ -22,15 +22,13 @@ jobs:
         run: |
           pip install -r requirements.txt
           python build.py
+      - name: Assemble site
+        run: |
+          rsync -a ./ _deploy/ \
+            --exclude .git --exclude .github --exclude .gitignore --exclude _deploy \
+            --exclude _editorials --exclude templates --exclude __pycache__ \
+            --exclude build.py --exclude requirements.txt
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: .
-          exclude: |
-            .git/**
-            .github/**
-            .gitignore
-            _editorials/**
-            templates/**
-            build.py
-            requirements.txt
+          folder: _deploy
