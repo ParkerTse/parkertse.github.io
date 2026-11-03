@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>1. Two Sum · Parker Tse</title>
+  <title>300. Longest Increasing Subsequence · Parker Tse</title>
   <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
@@ -21,41 +21,54 @@
     </nav>
 
     <article class="post">
-      <h1>1. Two Sum</h1>
-      <p class="post-meta"><span class="badge badge-easy">Easy</span><span class="tag">array</span><span class="tag">hash map</span><time>November 3, 2026</time></p>
-      <p class="links"><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">View on LeetCode</a></p>
+      <h1>300. Longest Increasing Subsequence</h1>
+      <p class="post-meta"><span class="badge badge-medium">Medium</span><span class="tag">array</span><span class="tag">binary search</span><span class="tag">dynamic programming</span><time>November 3, 2026</time></p>
+      <p class="links"><a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">View on LeetCode</a></p>
 
       <h2 id="problem">Problem</h2>
-<p>One or two sentences restating the problem in your own words.</p>
+<p>Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence. The sequence does not need to be contiguous.</p>
+<h2 id="example">Example</h2>
+<p><strong>Input:</strong> <code>nums = [10, 9, 2, 5, 3, 7, 101, 18]</code><br />
+<strong>Output:</strong> <code>4</code><br />
+<strong>Explanation:</strong> The longest increasing subsequence is <code>[2, 3, 7, 101]</code> (or <code>[2, 3, 7, 18]</code>), so the length is 4.</p>
 <h2 id="intuition">Intuition</h2>
-<p>What's the key observation? Why does the naive approach fall short?</p>
+<p>If we loop through <code>[10, 9, 2, 5, 3, 7, 101, 18]</code>, we start with <code>10</code>. When we encounter <code>9</code>, we cannot extend <code>[10]</code> because <span class="arithmatex">\(9 &lt; 10\)</span>. However, <code>9</code> is a better starting candidate than <code>10</code> because it gives us a wider range of future numbers that can build an increasing sequence. The same applies when we see <code>2</code>—we replace <code>9</code> with <code>2</code>.</p>
+<p>When <code>5</code> arrives, since <span class="arithmatex">\(5 &gt; 2\)</span>, we can extend our sequence to <code>[2, 5]</code>. Next, <code>3</code> arrives. Since <span class="arithmatex">\(3 &lt; 5\)</span>, we replace <code>5</code> with <code>3</code>, giving us <code>[2, 3]</code>. Lowering the tail value from 5 to 3 makes it easier for future numbers to extend the sequence.</p>
+<h3 id="what-about-elements-appearing-later-that-are-smaller-than-earlier-ones">What about elements appearing later that are smaller than earlier ones?</h3>
+<p>Consider <code>nums = [10, 9, 2, 5, 3, 1, 7, 101, 18]</code>. At <code>1</code>, our active tails array is <code>[2, 3]</code>. Even though <code>1</code> comes after <code>2</code>, replacing <code>2</code> with <code>1</code> gives us <code>[1, 3]</code>. </p>
+<p>Overwriting an element does <strong>not</strong> shrink the size of our array, so our recorded maximum length is never lost. Instead, it plants a seed for a new, lower-valued branch starting at <code>1</code> that can take advantage of future elements while preserving the length we achieved so far.</p>
+<p>Things to think about before reading the approach:
+1. How are we going to replace elements in the array?
+2. Do we need to store the whole sequence, or do we only care about where it ends?</p>
 <h2 id="approach">Approach</h2>
 <ol>
-<li>Step one.</li>
-<li>Step two.</li>
+<li>Initialize an empty array <code>tails</code> to store the smallest ending values for all sequence lengths found so far.</li>
+<li>For each number <code>num</code> in <code>nums</code>:</li>
+<li>If <code>tails</code> is empty or <code>num</code> is strictly greater than <code>tails[-1]</code>, append <code>num</code> to <code>tails</code>.</li>
+<li>Otherwise, use binary search (<code>bisect_left</code>) to find the first index <code>idx</code> where <code>tails[idx] &gt;= num</code>, and set <code>tails[idx] = num</code>.</li>
+<li>Return <code>len(tails)</code>.</li>
 </ol>
 <h2 id="complexity">Complexity</h2>
 <ul>
-<li>Time: <span class="arithmatex">\(O(n)\)</span></li>
-<li>Space: <span class="arithmatex">\(O(n)\)</span></li>
+<li><strong>Time Complexity:</strong> <span class="arithmatex">\(\mathcal{O}(n \log n)\)</span> — We process <span class="arithmatex">\(n\)</span> elements, performing a binary search of size at most <span class="arithmatex">\(n\)</span> (<span class="arithmatex">\(\mathcal{O}(\log n)\)</span>) for each.</li>
+<li><strong>Space Complexity:</strong> <span class="arithmatex">\(\mathcal{O}(n)\)</span> — The <code>tails</code> array requires up to <span class="arithmatex">\(n\)</span> space in the worst case.</li>
 </ul>
-<p>Display math works too:</p>
-<div class="arithmatex">\[
-\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-\]</div>
 <h2 id="code">Code</h2>
-<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">twoSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-        <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">target</span> <span class="o">-</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">[</span><span class="n">seen</span><span class="p">[</span><span class="n">target</span> <span class="o">-</span> <span class="n">x</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span>
-            <span class="n">seen</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+<p>```python
+from bisect import bisect_left</p>
+<p>class Solution:
+    def lengthOfLIS(self, nums: list[int]) -&gt; int:
+        tails = []
+        for num in nums:
+            # If num is greater than all tails, extend the longest sequence
+            if not tails or num &gt; tails[-1]:
+                tails.append(num)
+            else:
+                # Find the first element &gt;= num and replace it with a smaller tail
+                idx = bisect_left(tails, num)
+                tails[idx] = num</p>
+<div class="highlight"><pre><span></span><code>    return len(tails)
 </code></pre></div>
-<h2 id="edge-cases">Edge cases</h2>
-<ul>
-<li>Duplicates, negatives, empty input, etc.</li>
-</ul>
     </article>
 
     <footer>
