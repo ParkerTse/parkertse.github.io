@@ -4,7 +4,7 @@ number: 300
 difficulty: Medium
 tags: [array, binary search, dynamic programming]
 date: 2026-11-03
-link: [https://leetcode.com/problems/longest-increasing-subsequence/](https://leetcode.com/problems/longest-increasing-subsequence/)
+link: https://leetcode.com/problems/longest-increasing-subsequence/
 ---
 
 ## Problem
