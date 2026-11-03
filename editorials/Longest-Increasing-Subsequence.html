@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1. Two Sum · Parker Tse</title>
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="pygments.css" />
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" defer
+    onload="document.querySelectorAll('.arithmatex').forEach(function (el) { renderMathInElement(el, { delimiters: [{ left: '\\(', right: '\\)', display: false }, { left: '\\[', right: '\\]', display: true }] }); })"></script>
+</head>
+<body>
+  <main class="container">
+    <nav class="crumbs">
+      <a href="/">Parker Tse</a> / <a href="./">Editorials</a>
+    </nav>
+
+    <article class="post">
+      <h1>1. Two Sum</h1>
+      <p class="post-meta"><span class="badge badge-easy">Easy</span><span class="tag">array</span><span class="tag">hash map</span><time>November 3, 2026</time></p>
+      <p class="links"><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">View on LeetCode</a></p>
+
+      <h2 id="problem">Problem</h2>
+<p>One or two sentences restating the problem in your own words.</p>
+<h2 id="intuition">Intuition</h2>
+<p>What's the key observation? Why does the naive approach fall short?</p>
+<h2 id="approach">Approach</h2>
+<ol>
+<li>Step one.</li>
+<li>Step two.</li>
+</ol>
+<h2 id="complexity">Complexity</h2>
+<ul>
+<li>Time: <span class="arithmatex">\(O(n)\)</span></li>
+<li>Space: <span class="arithmatex">\(O(n)\)</span></li>
+</ul>
+<p>Display math works too:</p>
+<div class="arithmatex">\[
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\]</div>
+<h2 id="code">Code</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">twoSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="o">-</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">seen</span><span class="p">[</span><span class="n">target</span> <span class="o">-</span> <span class="n">x</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">seen</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+</code></pre></div>
+<h2 id="edge-cases">Edge cases</h2>
+<ul>
+<li>Duplicates, negatives, empty input, etc.</li>
+</ul>
+    </article>
+
+    <footer>
+      <span>&copy; 2026 Parker Tse</span>
+    </footer>
+  </main>
+</body>
+</html>
