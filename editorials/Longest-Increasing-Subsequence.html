@@ -32,14 +32,20 @@
 <strong>Output:</strong> <code>4</code><br />
 <strong>Explanation:</strong> The longest increasing subsequence is <code>[2, 3, 7, 101]</code> (or <code>[2, 3, 7, 18]</code>), so the length is 4.</p>
 <h2 id="intuition">Intuition</h2>
+<p>First think about:</p>
+<ol>
+<li>How can we store every single subsequence?</li>
+<li>Do we need to store every single subsequence?</li>
+<li>When processing a new number, do we need to rebuild our previous sequences?</li>
+</ol>
 <p>If we loop through <code>[10, 9, 2, 5, 3, 7, 101, 18]</code>, we start with <code>10</code>. When we encounter <code>9</code>, we cannot extend <code>[10]</code> because <span class="math inline">\(9 &lt; 10\)</span>. However, <code>9</code> is a better starting candidate than <code>10</code> because it gives us a wider range of future numbers that can build an increasing sequence. The same applies when we see <code>2</code>—we replace <code>9</code> with <code>2</code>.</p>
 <p>When <code>5</code> arrives, since <span class="math inline">\(5 &gt; 2\)</span>, we can extend our sequence to <code>[2, 5]</code>. Next, <code>3</code> arrives. Since <span class="math inline">\(3 &lt; 5\)</span>, we replace <code>5</code> with <code>3</code>, giving us <code>[2, 3]</code>. Lowering the tail value from 5 to 3 makes it easier for future numbers to extend the sequence.</p>
-<h3 id="what-about-elements-appearing-later-that-are-smaller-than-earlier-ones">What about elements appearing later that are smaller than earlier ones?</h3>
-<p>Consider <code>nums = [10, 9, 2, 5, 3, 1, 7, 101, 18]</code>. At <code>1</code>, our active tails array is <code>[2, 3]</code>. Even though <code>1</code> comes after <code>2</code>, replacing <code>2</code> with <code>1</code> gives us <code>[1, 3]</code>.</p>
-<p>Overwriting an element does <strong>not</strong> shrink the size of our array, so our recorded maximum length is never lost. Instead, it plants a seed for a new, lower-valued branch starting at <code>1</code> that can take advantage of future elements while preserving the length we achieved so far.</p>
+<p>What about elements appearing later that are smaller than earlier ones?
+Consider <code>nums = [10, 9, 2, 5, 3, 1, 7, 101, 18]</code>. At <code>1</code>, our active tails array is <code>[2, 3]</code>. Even though <code>1</code> comes after <code>2</code>, replacing <code>2</code> with <code>1</code> gives us <code>[1, 3]</code>.</p>
+<p>Overwriting an element does <strong>not</strong> shrink the size of our array, so our recorded maximum length is never lost. Instead, it creates a new subsequence starting at <code>1</code> that can take advantage of future elements while preserving the length we achieved so far.</p>
 <p>Things to think about before reading the approach:</p>
 <ol>
-<li>How are we going to replace elements in the array?</li>
+<li>How are we going to replace elements in the array? Hint: The array is sorted.</li>
 <li>Do we need to store the whole sequence, or do we only care about where it ends?</li>
 </ol>
 <h2 id="approach">Approach</h2>
