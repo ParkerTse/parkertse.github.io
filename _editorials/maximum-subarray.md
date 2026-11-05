@@ -36,10 +36,10 @@ Things to think about before reading the approach:
 1. Create a variable to store the max value of our subarray and initialize it to the first element of the array.
 2. Create a variable to store the total value of our subarray and initialize it to 0.
 3. Loop through the array.
-   -If the total positive, add the element to the subarray.
-   -If the total is negative, it is always better to start a new array.
-   -If you can't see this, then break it into cases: What happens when element is positive and what happens when it's negative. Positive: Great! Our element X is always greater than negative number + x. Negative: Also good! Adding two negatives makes an even bigger negative so its better to just start with our negative element X.
-   -Check whether our current subarray sum is greater than the max value variable.
+   - If the total positive, add the element to the subarray.
+   - If the total is negative, it is always better to start a new array.
+   - If you can't see this, then break it into cases: What happens when element is positive and what happens when it's negative. Positive: Great! Our element X is always greater than negative number + x. Negative: Also good! Adding two negatives makes an even bigger negative so its better to just start with our negative element X.
+   - Check whether our current subarray sum is greater than the max value variable.
 4. Return max value variable
 
 ## Complexity
